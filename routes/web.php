@@ -25,6 +25,10 @@ use App\Http\Controllers\PostController;
 // 投稿フォーム
 Route::get('post/create', [PostController::class, 'create']);
 
+// 投稿データ保存
+Route::post('post', [PostController::class, 'store'])
+->name('post.store');
+
 Route::get('/', function () {
     return view('welcome');
 });
