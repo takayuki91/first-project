@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+// PostControllerの追加
+use App\Http\Controllers\PostController;
+// 練習
+// use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// 練習
+// Route::get('/test', [TestController::class, 'test'])
+// ->name('test');
+
+// 投稿フォーム
+Route::get('post/create', [PostController::class, 'create']);
 
 Route::get('/', function () {
     return view('welcome');
