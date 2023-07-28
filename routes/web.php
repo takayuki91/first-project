@@ -25,7 +25,8 @@ use App\Http\Controllers\PostController;
 // middlewareをかけたいルート設定
 Route::middleware(['auth','admin'])->group(function () {
     // 投稿フォーム
-    Route::get('post/create', [PostController::class, 'create']);
+    Route::get('post/create', [PostController::class, 'create'])
+    ->name('post.create');
 
     // 投稿データ保存
     Route::post('post', [PostController::class, 'store'])

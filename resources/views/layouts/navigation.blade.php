@@ -12,9 +12,17 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link> --}}
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        一覧
                     </x-nav-link>
+                    @can('admin')
+                    <x-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
+                        新規投稿
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
