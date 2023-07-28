@@ -11,15 +11,25 @@
         <h1 class="text-lg font-semibold">
           {{ $post->title }}
         </h1>
+
         @can('admin')
-          <div class="mb-2 text-right">
-            <a href="{{route('post.edit', $post)}}">
+          <div class="mb-2 text-right flex">
+            <a href="{{route('post.edit', $post)}}" class="flex-1">
               <x-primary-button>
                 編集する
               </x-primary-button>
             </a>
+
+            <form method="post" action="{{route('post.destroy', $post)}}" class="flex-2">
+              @csrf
+              @method('delete')
+              <x-primary-button class="bg-red-800 ml-2">
+                削除する
+              </x-primary-button>
+            </form>
           </div>
         @endcan
+
         <hr class="w-full">
         <p class="mt-4 whitespace-pre-line">
           {{ $post->body }}

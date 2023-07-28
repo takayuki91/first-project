@@ -34,14 +34,19 @@ Route::middleware(['auth','admin'])->group(function () {
     // 投稿編集
     Route::get('post/{post}/edit', [PostController::class, 'edit'])
     ->name('post.edit');
-    
+
     // 投稿更新
     Route::patch('post/{post}', [PostController::class, 'update'])
     ->name('post.update');
+
+    // 投稿削除
+    Route::delete('post/{post}', [PostController::class, 'destroy'])
+    ->name('post.destroy');
 });
 
 // 投稿一覧
-Route::get('post', [PostController::class, 'index']);
+Route::get('post', [PostController::class, 'index'])
+->name('post.index');
 
 // 投稿詳細
 Route::get('post/show/{post}', [PostController::class, 'show'])

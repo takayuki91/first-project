@@ -69,4 +69,14 @@ class PostController extends Controller
         $request->session()->flash('message', '投稿を更新しました！');
         return back();
     }
+
+    // 投稿削除
+    public function destroy(Request $request, Post $post) {
+        // Gate追加
+        Gate::authorize('admin');
+
+        $post->delete();
+        $request->session()->flash('message', '削除に成功しました');
+        return redirect()->route('post.index');
+    }
 }
