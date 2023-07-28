@@ -16,13 +16,13 @@
         </style>
     </head>
     <body class="antialiased">
-
-        {{-- 練習 --}}
-        {{-- @auth
-            <p>
-                {{ Auth::user()->name }}さん、こんにちは！
-            </p>
-        @endauth --}}
+        <div>
+            @can('admin')
+                <div style="text-align: center;">
+                    <p>管理者ログイン</p>
+                </div>
+            @endcan
+        </div>
 
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
             @if (Route::has('login'))
