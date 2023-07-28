@@ -33,6 +33,10 @@ Route::post('post', [PostController::class, 'store'])
 // 投稿一覧
 Route::get('post', [PostController::class, 'index']);
 
+// 投稿詳細
+Route::get('post/show/{post}', [PostController::class, 'show'])
+->name('post.show');
+
 Route::get('/', function () {
     return view('welcome');
 }) ->middleware('auth');

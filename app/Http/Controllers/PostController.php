@@ -40,4 +40,9 @@ class PostController extends Controller
         $posts=Post::all();
         return view('post.index', compact('posts'));
     }
+
+    // 投稿詳細
+    public function show (post $post) {
+        return view('post.show', compact('post'));
+    }
 }
