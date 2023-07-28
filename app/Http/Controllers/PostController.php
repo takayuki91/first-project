@@ -17,18 +17,15 @@ class PostController extends Controller
     // 投稿データ保存
     public function store(Request $request) {
         // バリデーション
-        $validator = $request->validate([
+        $validated = $request->validate([
             'title' => 'required|max:50',
             'body' => 'required|max:100',
         ]);
 
-        $post = Post::create($validated);
-        return back();
+        $validated['user_id'] = auth()->id();
 
-        $post = Post::create([
-            'title' => $request->title,
-            'body' => $request->body
-        ]);
+        $post = Post::create($validated);
+
         $request->session()->flash('message', '投稿に成功しました！');
         return back();
     }
