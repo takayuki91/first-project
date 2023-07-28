@@ -29,6 +29,9 @@ Route::get('post/create', [PostController::class, 'create']);
 Route::post('post', [PostController::class, 'store'])
 ->name('post.store');
 
+// 投稿一覧
+Route::get('post', [PostController::class, 'index']);
+
 Route::get('/', function () {
     return view('welcome');
 });
