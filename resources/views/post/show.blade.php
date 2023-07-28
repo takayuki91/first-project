@@ -11,6 +11,15 @@
         <h1 class="text-lg font-semibold">
           {{ $post->title }}
         </h1>
+        @can('admin')
+          <div class="mb-2 text-right">
+            <a href="{{route('post.edit', $post)}}">
+              <x-primary-button>
+                編集する
+              </x-primary-button>
+            </a>
+          </div>
+        @endcan
         <hr class="w-full">
         <p class="mt-4 whitespace-pre-line">
           {{ $post->body }}

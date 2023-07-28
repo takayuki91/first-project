@@ -37,6 +37,14 @@ Route::get('post', [PostController::class, 'index']);
 Route::get('post/show/{post}', [PostController::class, 'show'])
 ->name('post.show');
 
+// 投稿編集
+Route::get('post/{post}/edit', [PostController::class, 'edit'])
+->name('post.edit');
+
+// 投稿更新
+Route::patch('post/{post}', [PostController::class, 'update'])
+->name('post.update');
+
 Route::get('/', function () {
     return view('welcome');
 }) ->middleware('auth');

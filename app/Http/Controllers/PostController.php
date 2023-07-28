@@ -45,4 +45,28 @@ class PostController extends Controller
     public function show (post $post) {
         return view('post.show', compact('post'));
     }
+
+    // 投稿編集
+    public function edit(Post $post) {
+        return view('post.edit', compact('post'));
+    }
+
+    // 投稿更新
+    public function update(Request $request, Post $post) {
+        // Gate追加
+        Gate::authorize('admin');
+
+        // バリデーション
+        $validated = $request->validate([
+            'title' => 'required|max:50',
+            'body' => 'required|max:100',
+        ]);
+
+        $validated['user_id'] = auth()->id();
+
+        $post->update($validated);
+
+        $request->session()->flash('message', '投稿を更新しました！');
+        return back();
+    }
 }
