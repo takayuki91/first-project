@@ -22,13 +22,23 @@ use App\Http\Controllers\PostController;
 // Route::get('/test', [TestController::class, 'test'])
 // ->name('test');
 
-// 投稿フォーム
-Route::get('post/create', [PostController::class, 'create'])
-->middleware( ['auth','admin'] );
+// middlewareをかけたいルート設定
+Route::middleware(['auth','admin'])->group(function () {
+    // 投稿フォーム
+    Route::get('post/create', [PostController::class, 'create']);
 
-// 投稿データ保存
-Route::post('post', [PostController::class, 'store'])
-->name('post.store');
+    // 投稿データ保存
+    Route::post('post', [PostController::class, 'store'])
+    ->name('post.store');
+
+    // 投稿編集
+    Route::get('post/{post}/edit', [PostController::class, 'edit'])
+    ->name('post.edit');
+    
+    // 投稿更新
+    Route::patch('post/{post}', [PostController::class, 'update'])
+    ->name('post.update');
+});
 
 // 投稿一覧
 Route::get('post', [PostController::class, 'index']);
@@ -36,14 +46,6 @@ Route::get('post', [PostController::class, 'index']);
 // 投稿詳細
 Route::get('post/show/{post}', [PostController::class, 'show'])
 ->name('post.show');
-
-// 投稿編集
-Route::get('post/{post}/edit', [PostController::class, 'edit'])
-->name('post.edit');
-
-// 投稿更新
-Route::patch('post/{post}', [PostController::class, 'update'])
-->name('post.update');
 
 Route::get('/', function () {
     return view('welcome');
