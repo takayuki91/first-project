@@ -6,11 +6,14 @@
   </x-slot>
 
   <div class="max-w-7xl mx-auto px-6">
-    @if(session('message'))
+    {{-- @if(session('message'))
       <div class="text-black-600 font-bold">
         {{session('message')}}
       </div>
-    @endif
+    @endif --}}
+
+    {{-- コンポーネントに変更 --}}
+    <x-message :message="session('message')" />
 
     <form method="post" action="{{ route('post.store') }}">
       @csrf
