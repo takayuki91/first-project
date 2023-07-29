@@ -52,7 +52,8 @@ class PostController extends Controller
             $query->where('title', 'LIKE', "%{$keyword}%")
                   ->orWhere('body', 'LIKE', "%{$keyword}%");
         }
-        $posts = $query->get();
+        $posts = $query->orderBy('created_at', 'desc')
+                       ->paginate(5);
         return view('post.index', compact('posts', 'keyword'));
     }
 
