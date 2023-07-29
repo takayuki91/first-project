@@ -44,7 +44,7 @@ class PostController extends Controller
     //     return view('post.index', compact('posts'));
     // }
 
-    // 検索機能
+    // 一覧投稿（検索機能）
     public function index(Request $request) {
         $keyword = $request->input('keyword');
         $query = Post::query();
