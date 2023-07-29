@@ -35,13 +35,25 @@ class PostController extends Controller
         return back();
     }
 
-    // 投稿一覧
-    public function index() {
-        // Gate追加
-        Gate::authorize('admin');
+    // // 投稿一覧
+    // public function index() {
+    //     // Gate追加
+    //     Gate::authorize('admin');
 
-        $posts=Post::all();
-        return view('post.index', compact('posts'));
+    //     $posts=Post::all();
+    //     return view('post.index', compact('posts'));
+    // }
+
+    // 検索機能
+    public function index(Request $request) {
+        $keyword = $request->input('keyword');
+        $query = Post::query();
+        if(!empty($keyword)) {
+            $query->where('title', 'LIKE', "%{$keyword}%")
+                  ->orWhere('body', 'LIKE', "%{$keyword}%");
+        }
+        $posts = $query->get();
+        return view('post.index', compact('posts', 'keyword'));
     }
 
     // 投稿詳細
@@ -56,7 +68,7 @@ class PostController extends Controller
     public function edit(Post $post) {
          // Gate追加
          Gate::authorize('admin');
-         
+
         return view('post.edit', compact('post'));
     }
 
