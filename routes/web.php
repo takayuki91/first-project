@@ -55,7 +55,7 @@ Route::get('post/show/{post}', [PostController::class, 'show'])
 
 Route::get('/', function () {
     return view('welcome');
-}) ->middleware('auth');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

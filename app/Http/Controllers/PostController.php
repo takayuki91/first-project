@@ -37,17 +37,26 @@ class PostController extends Controller
 
     // 投稿一覧
     public function index() {
+        // Gate追加
+        Gate::authorize('admin');
+
         $posts=Post::all();
         return view('post.index', compact('posts'));
     }
 
     // 投稿詳細
     public function show (post $post) {
+        // Gate追加
+        Gate::authorize('admin');
+
         return view('post.show', compact('post'));
     }
 
     // 投稿編集
     public function edit(Post $post) {
+         // Gate追加
+         Gate::authorize('admin');
+         
         return view('post.edit', compact('post'));
     }
 
