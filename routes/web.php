@@ -53,6 +53,12 @@ Route::get('post', [PostController::class, 'index'])
 Route::get('post/show/{post}', [PostController::class, 'show'])
 ->name('post.show');
 
+// CSVファイルをアップロード
+Route::get('post/upload_csv', [PostController::class, 'showUploadForm'])
+->name('post.upload');
+Route::post('post/process-upload', [PostController::class, 'processUpload'])
+->name('post.process_upload');
+
 Route::get('/', function () {
     return view('welcome');
 });

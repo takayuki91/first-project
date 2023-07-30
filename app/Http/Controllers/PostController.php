@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 // Gateを使うため
 use Illuminate\Support\Facades\Gate;
+// csvファイルをアップロードするため
+use Goodby\CSV\Import\Standard\LexerConfig;
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+use League\Csv\Reader;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 
 class PostController extends Controller
@@ -100,5 +107,47 @@ class PostController extends Controller
         $post->delete();
         $request->session()->flash('message', '削除に成功しました');
         return redirect()->route('post.index');
+    }
+
+    // CSVファイルをアップロード
+    public function showUploadForm()
+    {
+        return view('post/upload_csv');
+    }
+
+    public function processUpload(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|mimes:csv,txt'
+        ]);
+
+        $file = $request->file('csv_file');
+        $filePath = $file->path();
+
+        // ファイルを読み込む処理
+        $fileContent = File::get($filePath);
+
+        // 例：CSVファイルを行ごとに分割し、それぞれの行を処理する場合
+        $rows = explode("\n", $fileContent);
+        // 1行目はヘッダーなのでスキップする
+        // $header = array_shift($rows);
+        unset($rows[0]);
+        
+        foreach ($rows as $row) {
+            $data = str_getcsv($row);
+            // $data にはCSVファイルの各列が配列として格納される
+            // 例：$data[0] が1列目のデータ、$data[1] が2列目のデータなど
+
+            // user_id を設定
+            // $data['user_id'] = auth()->id();
+            // ここでデータベースに保存するなどの処理を行う
+            // Post::insert(['title' => $row[0], 'body' => $row[1], 'user_id' => auth()->id()]);
+            if (isset($data[0]) && isset($data[1])) {
+                $data['user_id'] = auth()->id();
+                Post::create(['title' => $data[0], 'body' => $data[1], 'user_id' => $data['user_id']]);
+            }
+        }
+
+        return redirect()->route('post.index')->with('message', 'CSVファイルのインポートが完了しました。');
     }
 }
