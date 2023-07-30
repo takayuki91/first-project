@@ -59,6 +59,10 @@ Route::get('post/upload_csv', [PostController::class, 'showUploadForm'])
 Route::post('post/process-upload', [PostController::class, 'processUpload'])
 ->name('post.process_upload');
 
+// CSVファイルをダウンロード
+// Route::get('post/download_csv', [PostController::class, 'downloadCSV'])
+// ->name('post.download');
+
 Route::get('/', function () {
     return view('welcome');
 });

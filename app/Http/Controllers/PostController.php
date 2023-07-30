@@ -14,6 +14,9 @@ use Goodby\CSV\Import\Standard\Interpreter;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+// csvファイルをダウンロードするため
+use League\Csv\Writer;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class PostController extends Controller
@@ -125,21 +128,16 @@ class PostController extends Controller
         // ファイルを読み込む処理
         $fileContent = File::get($filePath);
 
-        // 例：CSVファイルを行ごとに分割し、それぞれの行を処理する場合
+        // CSVファイルを行ごとに分割し、それぞれの行を処理する
         $rows = explode("\n", $fileContent);
         // 1行目はヘッダーなのでスキップする
-        // $header = array_shift($rows);
         unset($rows[0]);
         
         foreach ($rows as $row) {
             $data = str_getcsv($row);
             // $data にはCSVファイルの各列が配列として格納される
-            // 例：$data[0] が1列目のデータ、$data[1] が2列目のデータなど
 
-            // user_id を設定
-            // $data['user_id'] = auth()->id();
             // ここでデータベースに保存するなどの処理を行う
-            // Post::insert(['title' => $row[0], 'body' => $row[1], 'user_id' => auth()->id()]);
             if (isset($data[0]) && isset($data[1])) {
                 $data['user_id'] = auth()->id();
                 Post::create(['title' => $data[0], 'body' => $data[1], 'user_id' => $data['user_id']]);
@@ -148,4 +146,33 @@ class PostController extends Controller
 
         return redirect()->route('post.index')->with('message', 'CSVファイルのインポートが完了しました。');
     }
+
+    // csvファイルをダウンロード
+    // public function downloadCSV() {
+
+    //     // return view('post/download_csv');
+
+    //     // ダウンロードするデータ取得
+    //     $posts = Post::all();
+
+    //     // CSVファイルのヘッダーを設定
+    //     $header = ['Title', 'Body', 'User ID'];
+
+    //     // CSVファイルの内容を生成
+    //     $data = [];
+    //     foreach ($posts as $post) {
+    //         $data[] = [$post->title, $post->body, $post->user_id];
+    //     }
+
+    //     // レスポンスを返す
+    //     return new StreamedResponse(function () use ($header, $data) {
+    //         $csv = Writer::createFromFileObject(new \SplTempFileObject());
+    //         $csv->insertOne($header);
+    //         $csv->insertAll($data);
+    //         $csv->output('posts.csv');
+    //     }, 200, [
+    //         'Content-Type' => 'text/csv',
+    //         'Content-Disposition' => 'attachment; filename="posts.csv"',
+    //     ]);
+    // }
 }
