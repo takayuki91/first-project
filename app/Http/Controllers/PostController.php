@@ -66,8 +66,6 @@ class PostController extends Controller
 
     // 投稿詳細
     public function show (post $post) {
-        // Gate追加
-        Gate::authorize('admin');
 
         return view('post.show', compact('post'));
     }

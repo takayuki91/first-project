@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          投稿一覧
+          超時短飯一覧
       </h2>
   </x-slot>
 
@@ -13,7 +13,7 @@
   {{-- 検索機能 --}}
   <div class="mx-auto mt-2 p-4 bg-white w-full" style="text-align: center;">
     <h1 class="text-lg font-semibold">
-      投稿を探す
+      もっと時短したい人へ⌛️
     </h1>
     <hr class="w-full">
     <form action="{{ route('post.index') }}" method="GET">
