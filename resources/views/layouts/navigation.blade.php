@@ -22,6 +22,9 @@
                     <x-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
                         新規投稿
                     </x-nav-link>
+                    <x-nav-link :href="route('post.upload')" :active="request()->routeIs('post.upload_csv')">
+                        インポート
+                    </x-nav-link>
                     @endcan
                 </div>
             </div>
