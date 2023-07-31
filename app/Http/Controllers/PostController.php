@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 // Postモデルを使うため
 use App\Models\Post;
+
 // Gateを使うため
 use Illuminate\Support\Facades\Gate;
+
 // csvファイルをアップロードするため
 use Goodby\CSV\Import\Standard\LexerConfig;
 use Goodby\CSV\Import\Standard\Lexer;
@@ -14,9 +17,10 @@ use Goodby\CSV\Import\Standard\Interpreter;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+
 // csvファイルをダウンロードするため
 use League\Csv\Writer;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\DB;
 
 
 class PostController extends Controller
@@ -128,16 +132,16 @@ class PostController extends Controller
         // ファイルを読み込む処理
         $fileContent = File::get($filePath);
 
-        // CSVファイルを行ごとに分割し、それぞれの行を処理する
+        // CSVファイルを行ごとに分割し、それぞれの行を処理
         $rows = explode("\n", $fileContent);
-        // 1行目はヘッダーなのでスキップする
+        // 1行目はヘッダーなのでスキップ
         unset($rows[0]);
         
         foreach ($rows as $row) {
             $data = str_getcsv($row);
-            // $data にはCSVファイルの各列が配列として格納される
+            // $dataにCSVファイルの各列が配列として格納
 
-            // ここでデータベースに保存するなどの処理を行う
+            // データベースに保存する処理を行う
             if (isset($data[0]) && isset($data[1])) {
                 $data['user_id'] = auth()->id();
                 Post::create(['title' => $data[0], 'body' => $data[1], 'user_id' => $data['user_id']]);
@@ -148,31 +152,30 @@ class PostController extends Controller
     }
 
     // csvファイルをダウンロード
-    // public function downloadCSV() {
+    public function showDownloadForm()
+    {
+        return view('post/download_csv');
+    }
 
-    //     // return view('post/download_csv');
-
-    //     // ダウンロードするデータ取得
-    //     $posts = Post::all();
-
-    //     // CSVファイルのヘッダーを設定
-    //     $header = ['Title', 'Body', 'User ID'];
-
-    //     // CSVファイルの内容を生成
-    //     $data = [];
-    //     foreach ($posts as $post) {
-    //         $data[] = [$post->title, $post->body, $post->user_id];
-    //     }
-
-    //     // レスポンスを返す
-    //     return new StreamedResponse(function () use ($header, $data) {
-    //         $csv = Writer::createFromFileObject(new \SplTempFileObject());
-    //         $csv->insertOne($header);
-    //         $csv->insertAll($data);
-    //         $csv->output('posts.csv');
-    //     }, 200, [
-    //         'Content-Type' => 'text/csv',
-    //         'Content-Disposition' => 'attachment; filename="posts.csv"',
-    //     ]);
-    // }
+    public function downloadCSV() {
+        $fileName = 'example.csv';
+        $csvData = $this->getCSVData();
+    
+        $csv = Writer::createFromPath('php://temp', 'w');
+        $csv->insertAll($csvData);
+    
+        return response($csv->getContent(), 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
+    }
+    
+    public function getCSVData() {
+    $posts = Post::select('title', 'body')->get();
+    $csvData = [];
+    foreach ($posts as $post) {
+        $csvData[] = [$post->title, $post->body];
+    }
+    return $csvData;
+    }
 }
