@@ -24,38 +24,42 @@
                     @auth
                         <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">ログイン</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">新規登録</a>
                         @endif
                     @endauth
                 </div>
             @endif
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div class="grid">
                 <div class="p-6 bg-white rounded-lg shadow-2xl">
-                    <div>
+                    <div class="flex items-center">
                         <div class="h-16 w-16 flex items-center justify-center rounded-full">
-                            <x-application-logo width="300" class="block text-gray-800 mx-auto" />
+                            
                         </div>
-
-                        <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">時短レシピ紹介サイト</h2>
-
-                        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                            <div class="mx-auto px-6">
-                                <div class="mx-auto mt-8 p-8 bg-white rounded-lg shadow-md max-w-3xl">
-                                    <h2 class="text-6xl font-semibold mt-4 text-center">"超時短飯"へようこそ！</h2>
-                                    <p class="mt-4 text-gray-600 text-center animate-slideIn">
-                                        お手軽で美味しいレシピを提供します。忙しい日々でも時短で料理を楽しもう！
-                                    </p>
+            
+                        <div class="ml-auto mr-auto">
+                            
+                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
+                                <x-application-logo width="10" class="block text-gray-800" /><hr><br>簡単・お手軽・美味レシピ紹介サイト<br>　　"超時短飯"へようこそ！</h2>
+            
+                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                                <div class="mx-auto px-6">
+                                    <div class="mx-auto mt-8 p-8 bg-white rounded-lg shadow-md max-w-3xl">
+                                        <img src="{{ asset('img/top.png') }}" alt="トップ画像">
+                                        <p class="mt-2 text-black text-center">
+                                            お手軽で美味しいレシピを提供します。忙しい日々でも時短で食事を楽しもう！
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </p>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
         <footer class="absolute bottom-0 w-full py-4 text-center bg-white dark:bg-gray-800">
