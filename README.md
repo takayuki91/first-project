@@ -1,7 +1,7 @@
 # 「超時短飯」（簡単・お手軽・美味レシピ紹介サイト）
 
-### 機能一例
-https://github.com/takayuki91/first-project/assets/129576342/7bfb2916-88d6-48f9-a60a-69970031fb19
+### 機能実演例
+https://github.com/takayuki91/first-project/assets/129576342/2a0f42f4-ebd6-40c5-976c-f39cc6bc862f
 
 # サイト概要
 
