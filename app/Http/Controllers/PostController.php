@@ -126,7 +126,7 @@ class PostController extends Controller
             // 新しい画像がアップロードされなかった場合
             unset($validated['image']);
         
-            $post->image=$name;
+            // $post->image=$name;
         }
 
         $post->update($validated);
