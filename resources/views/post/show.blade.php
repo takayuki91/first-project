@@ -34,6 +34,12 @@
         <p class="mt-4 whitespace-pre-line">
           {{ $post->body }}
         </p>
+        @if($post->image)
+          <img src="{{ asset('storage/images/'.$post->image)}}" class="mx-auto" style="height:300px;">
+          <div>
+            (画像ファイル：{{$post->image}})
+          </div>
+        @endif
         <div class="text-sm font-semibold flex flex-row-reverse">
           <p> {{ $post->created_at }} by {{$post->user->name??'Anonymous'}}</p>
         </div>

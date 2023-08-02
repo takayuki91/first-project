@@ -38,11 +38,21 @@ class PostController extends Controller
         // バリデーション
         $validated = $request->validate([
             'title' => 'required|max:50',
-            'body' => 'required|max:100',
+            'body' => 'required|max:140',
+            'image'=>'image|max:1024'
         ]);
 
         $validated['user_id'] = auth()->id();
 
+        // 画像についての処理
+        if (request('image')){
+            $name = request()->file('image')->getClientOriginalName();
+            // 日時追加
+            $name = date('Ymd_His').'_'.$name;
+            request()->file('image')->move('storage/images', $name);
+            $validated['image'] = $name;
+        }
+        
         $post = Post::create($validated);
 
         $request->session()->flash('message', '投稿に成功しました！');
@@ -93,10 +103,31 @@ class PostController extends Controller
         // バリデーション
         $validated = $request->validate([
             'title' => 'required|max:50',
-            'body' => 'required|max:100',
+            'body' => 'required|max:140',
+            'image'=>'image|max:1024'
         ]);
 
         $validated['user_id'] = auth()->id();
+
+        if(request('image')){
+            $name=request()->file('image')->getClientOriginalName();
+            $name=date('Ymd_His').'_'.$name;
+            request()->file('image')->move('storage/images', $name);
+            $validated['image'] = $name;
+        
+            // 古い画像ファイルが存在する場合は削除する
+            if ($post->image) {
+                $oldImagePath = public_path('storage/images/' . $post->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+        } else {
+            // 新しい画像がアップロードされなかった場合
+            unset($validated['image']);
+        
+            $post->image=$name;
+        }
 
         $post->update($validated);
 
